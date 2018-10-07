@@ -1,0 +1,212 @@
+import java.util.Date;
+import java.util.Random;
+
+public class Sorting {
+	public static void main(String[] args) {
+		int arraySizeInput=50000;
+		int[] inputArray = new int[arraySizeInput];
+		int[] outputArray = new int[arraySizeInput];
+		Random random = new Random();
+		System.out.println("Input: ");
+		inputArray[0] = 1;
+		for(int i=1;i<arraySizeInput;i++) {
+			//inputArray[i] = random.nextInt(100);
+			inputArray[i] = inputArray[i-1]+1;
+			System.out.print(inputArray[i]+" ");
+		}
+		System.out.println();
+		Date d1 = new Date();
+		outputArray = insertionSort(inputArray);
+		Date d2 = new Date();
+		System.out.println("Perfromance of Insertion sort "+ (d2.getTime()-d1.getTime())+" ms");
+
+
+		Date d3 = new Date();
+		outputArray = mergeDivide(inputArray);
+		Date d4 = new Date();
+		System.out.println("Perfromance of Merge sort "+ (d4.getTime()-d3.getTime())+" ms");
+
+		Date d5 = new Date();
+		outputArray = quickSort(inputArray, 0, arraySizeInput-1);
+		Date d6 = new Date();
+		System.out.println("Perfromance of In place Quick sort "+ (d6.getTime()-d5.getTime())+" ms");
+		
+
+		Date d7 = new Date();
+		outputArray = medianSort(inputArray, 0, arraySizeInput-1);
+		Date d8 = new Date();
+		System.out.println("Perfromance of Median of three Quick sort and Insertion  sort "+ (d8.getTime()-d7.getTime())+" ms");
+		
+	}
+
+	public static int[] insertionSort ( int arr[]){
+		int n = arr.length;
+		for(int i=1 ; i<n ; i++ ){
+			int key = arr[i];
+			int j= i-1;
+			while( j>=0  && arr[j] >key ){
+				arr[j+1] = arr[j];
+				j--;
+			}
+			arr[j+1] = key ;
+		}
+		return arr;
+	}
+
+	public static int[] mergeDivide(int[] array) {
+		int size = array.length;
+		if (size <= 1) {
+			return array;
+		}
+		int[] left = new int[size/2];
+		int[] right = new int[size - size/2];
+		for (int i = 0; i < left.length; i++) {
+			left[i] = array[i];
+		}
+		for (int i = 0; i < right.length; i++){
+			right[i] = array[i + size/2];
+		}
+		return merge(mergeDivide(left),mergeDivide(right));
+	}
+	private static int[] merge(int[] left, int[] right) {
+		int[] temp = new int[left.length + right.length];
+		int i = 0, j = 0;
+		for (int k = 0; k < temp.length; k++){
+			if(i >= left.length){
+				temp[k] = right[j++];
+			}
+			else if (j >= right.length){
+				temp[k] = left[i++];
+			}
+			else if (left[i] <= right[j]){
+				temp[k] = left[i++];
+			}
+			else {
+				temp[k] = right[j++];
+			}
+		}
+		return temp;
+	}
+
+	public static int[] quickSort(int[] inputArray, int j, int k) {
+		int start=j;
+		int end=k;
+		if(j>=k) {
+			return inputArray;
+		}
+		int pivot = inputArray[k];
+		k--;
+		while(j<k) {
+			if(inputArray[j]>pivot && inputArray[k]<=pivot) {
+				int temp=inputArray[k];
+				inputArray[k]=inputArray[j];
+				inputArray[j]= temp;
+				j++;k--;
+			}else if(inputArray[j]>pivot && inputArray[k]>pivot){
+				k--;
+			}else if(inputArray[j]<=pivot && inputArray[k]<=pivot){
+				j++;
+			}else {
+				j++;k--;
+			}	
+		}
+		if(j>=k) {
+			if(inputArray[j]>pivot) {
+				int temp = inputArray[j];
+				inputArray[j] = pivot;
+				inputArray[end] = temp;
+			}else if(inputArray[j+1]>pivot) {
+				int temp = inputArray[j+1];
+				inputArray[j+1] = pivot;
+				inputArray[end] = temp;
+				j=j+1;
+			}else if(end==j+1) {
+				j=j+1;
+			}
+		}
+		quickSort(inputArray,start,j-1);
+		quickSort(inputArray,j+1,end);
+		return inputArray;
+	}
+	
+	public static int[] medianSort(int[] inputArray, int start, int end) {
+		if(start<end)
+		{
+			if((end-start)>10){
+				int a[] = new int[3];
+				a[0] = inputArray[start];
+				a[1] = inputArray[end];
+				a[2] = inputArray[((end+start)/2)];
+				if(a[0]>a[1]) {
+					int t= a[0];
+					a[0]=a[1];
+					a[1]=t;
+				}
+				if(a[0]>a[2]) {
+					int t= a[0];
+					a[0]=a[2];
+					a[2]=t;
+				}
+				if(a[1]>a[2]) {
+					int t= a[1];
+					a[1]=a[2];
+					a[2]=t;
+				}
+				inputArray[start] = a[0];
+				inputArray[end] = a[2];
+				inputArray[((end+start)/2)] = inputArray[end-1];
+				inputArray[end-1] = a[1];
+
+				int pivot = inputArray[end-1];
+				end = end-2;
+				start=start+1;
+
+				int x=start-1;
+				for(int i=start;i<end;i++)
+				{
+					if(inputArray[start]<pivot)
+					{
+						x=x+1;
+						int temp = inputArray[x];
+						inputArray[x]=inputArray[start];
+						inputArray[start]=temp;
+					}
+				}
+				int temp = inputArray[x+1];
+				inputArray[x+1]=inputArray[end];
+				inputArray[end]=temp;
+				medianSort(inputArray,start,x);
+				medianSort(inputArray,x+2,end);
+			}else {
+				insertionSort(inputArray);
+
+			}
+		}
+		return inputArray;
+	}
+	
+	/*public static int[] quickSort(int[] inputArray, int start, int end) {
+		if(start<end)
+		{
+				int pivot = inputArray[end];
+				end = end-1;
+				int x=start-1;
+				for(int i=start;i<end;i++)
+				{
+					if(inputArray[start]<pivot)
+					{
+						x=x+1;
+						int temp = inputArray[x];
+						inputArray[x]=inputArray[start];
+						inputArray[start]=temp;
+					}
+				}
+				int temp = inputArray[x+1];
+				inputArray[x+1]=inputArray[end];
+				inputArray[end]=temp;
+				quickSort(inputArray,start,x);
+				quickSort(inputArray,x+2,end);
+		}
+		return inputArray;
+	}*/
+}

@@ -1,0 +1,84 @@
+import java.util.Random;
+
+public class MedianQuickSort {
+	public static void main(String[] args) {
+		int arraySizeInput=10;
+//		int[] inputArray = {48, 55, 55, 47, 68};
+		int[] inputArray = new int[arraySizeInput];
+		Random random = new Random();
+		for(int i=0;i<arraySizeInput;i++) {
+			inputArray[i] = random.nextInt(100);
+			System.out.print(inputArray[i]+" ");
+		}
+		System.out.println();
+		sort(inputArray,0,arraySizeInput-1);
+		
+	}
+	public static void sort(int[] inputArray, int j, int k) {
+		int start=j;
+		int end=k;
+		if(j>=k) {
+			return;
+		}
+		int a[];
+		a[0] = inputArray[j];
+		a[1] = inputArray[k];
+		a[2] = inputArray[((k-j+1)/2)+j];
+		if(a[0]>a[1]) {
+			int t= a[0];
+			a[0]=a[1];
+			a[1]=t;
+		}
+		if(a[0]>a[2]) {
+			int t= a[0];
+			a[0]=a[2];
+			a[2]=t;
+		}
+		if(a[1]>a[2]) {
+			int t= a[1];
+			a[1]=a[2];
+			a[2]=t;
+		}
+		inputArray[j] = a[0];
+		inputArray[k]=a[2];
+		inputArray[((k-j+1)/2)+j] =a[1];
+		
+		
+		k--;
+		while(j<k) {
+			if(inputArray[j]>pivot && inputArray[k]<=pivot) {
+				int temp=inputArray[k];
+				inputArray[k]=inputArray[j];
+				inputArray[j]= temp;
+				j++;k--;
+			}else if(inputArray[j]>pivot && inputArray[k]>pivot){
+				k--;
+			}else if(inputArray[j]<=pivot && inputArray[k]<=pivot){
+				j++;
+			}else {
+				j++;k--;
+			}	
+		}
+		if(j>=k) {
+			if(inputArray[j]>pivot) {
+				int temp = inputArray[j];
+				inputArray[j] = pivot;
+				inputArray[end] = temp;
+			}else if(inputArray[j+1]>pivot) {
+				int temp = inputArray[j+1];
+				inputArray[j+1] = pivot;
+				inputArray[end] = temp;
+				j=j+1;
+			}else if(end==j+1) {
+				j=j+1;
+			}
+		}
+		sort(inputArray,start,j-1);
+		sort(inputArray,j+1,end);
+		for(int i =0;i<inputArray.length;i++) {
+			System.out.print(inputArray[i] +" ");
+		}
+		System.out.println();
+	}
+
+}

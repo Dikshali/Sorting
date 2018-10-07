@@ -1,0 +1,63 @@
+
+import java.util.Date;
+import java.util.Random;
+import java.util.Scanner;
+
+public class MergeSort {
+	public static void main(String[] args) {
+		int arraySizeInput;
+		System.out.println("Enter size of the array:");
+		Scanner t = new Scanner(System.in);
+		arraySizeInput = t.nextInt();
+		int[] inputArray = new int[arraySizeInput];
+		//generate random numbers
+		Random random = new Random();
+		//System.out.print("{");
+		for(int i=0;i<arraySizeInput;i++) {
+			inputArray[i] = random.nextInt(100);
+			//System.out.print(inputArray[i] +",");
+		}
+		//System.out.print("}");
+		//System.out.println();
+		//System.out.println("after sort ");
+		Date d1 = new Date();
+		inputArray = mergeDivide(inputArray);
+		Date d2 = new Date();
+		System.out.println("Perfromance "+ (d2.getTime()-d1.getTime())+" ms");
+		
+	}
+	
+	public static int[] mergeDivide(int[] array) {
+		int size = array.length;
+        if (size <= 1) {
+        	return array;
+        }
+        int[] left = new int[size/2];
+        int[] right = new int[size - size/2];
+        for (int i = 0; i < left.length; i++)
+            left[i] = array[i];
+        for (int i = 0; i < right.length; i++)
+            right[i] = array[i + size/2];
+        return merge(mergeDivide(left),mergeDivide(right));
+	}
+	private static int[] merge(int[] left, int[] right) {
+        int[] temp = new int[left.length + right.length];
+        int i = 0, j = 0;
+        for (int k = 0; k < temp.length; k++){
+            if(i >= left.length){
+            	temp[k] = right[j++];
+            }
+            else if (j >= right.length){
+            	temp[k] = left[i++];
+            }
+            else if (left[i] <= right[j]){
+            	temp[k] = left[i++];
+            }
+            else {
+            	temp[k] = right[j++];
+            }
+        }
+        return temp;
+    }
+
+}

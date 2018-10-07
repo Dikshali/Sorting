@@ -1,0 +1,113 @@
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class MergeSort {
+	public static void main(String[] args) {
+		int arraySizeInput;
+		System.out.println("Enter size of the array:");
+		Scanner t = new Scanner(System.in);
+		arraySizeInput = t.nextInt();
+		int[] inputArray = new int[arraySizeInput];
+		//generate random numbers
+		Random random = new Random();
+		for(int i=0;i<arraySizeInput;i++) {
+			inputArray[i] = random.nextInt(100);
+			System.out.println(inputArray[i] +" ");
+		}
+		System.out.println("after sort ");
+		merge(inputArray,arraySizeInput);
+		for(int i=0;i<arraySizeInput;i++) {
+			System.out.println(inputArray[i]);
+		}
+	}
+	
+	public static void merge(int[] array, int size) {
+		int middle = (size)/2;
+		if(size%2==0) {
+			int left[] = new int[middle];
+			int right[] = new int[middle];
+			for(int i=0;i<middle-1;i++) {
+				left[i]=array[i];
+			}
+			for(int i=middle;i<middle-1;i++) {
+				left[i]=array[i];
+			}
+		}else {
+			int left[] = new int[middle];
+			int right[] = new int[middle+1];
+		}
+				
+	}
+}
+	/*public static void main(String[] args) {
+		int arraySizeInput;
+		System.out.println("Enter size of the array:");
+		Scanner t = new Scanner(System.in);
+		arraySizeInput = t.nextInt();
+		int[] inputArray = new int[arraySizeInput];
+		//generate random numbers
+		Random random = new Random();
+		for(int i=0;i<arraySizeInput;i++) {
+			inputArray[i] = random.nextInt(100);
+			System.out.println(inputArray[i] +" ");
+		}
+		System.out.println("after sort ");
+		MergeSort m = new MergeSort(); 
+		m.mergeSortDivide(inputArray,0,arraySizeInput-1);
+		for(int i=0;i<arraySizeInput;i++) {
+			System.out.println(inputArray[i]);
+		}
+	}
+	
+	public void mergeSortDivide(int[] inputArray,int first, int last) {
+		if(first<last) {
+			int middle = (first+last)/2;
+			mergeSortDivide(inputArray, first, middle);
+			mergeSortDivide(inputArray, middle+1, last);
+			sort(inputArray,first,last, middle);
+		}
+	}
+	
+	public void sort(int array[],int first, int last, int middle) {
+		
+		int leftarraySize = middle - first + 1;
+		int rightarraySize = last - middle; 
+		int left[] = new int [leftarraySize]; 
+		int right[] = new int [rightarraySize]; 
+		for (int i=0; i<leftarraySize; ++i) {
+			left[i] = array[first + i]; 
+		}
+		for (int j=0; j<rightarraySize; ++j) {
+			right[j] = array[middle + 1+ j];
+		}
+		int k=0,i=0,j=0; 
+		while (i < leftarraySize && j < rightarraySize) 
+		{ 
+			if (left[i] <= right[j]) 
+			{ 
+				array[k] = left[i]; 
+				i++; 
+			} 
+			else
+			{ 
+				array[k] = right[j]; 
+
+				j++; 
+			} 
+			k++; 
+		}
+		while (i < leftarraySize) 
+		{ 
+			array[k] = left[i]; 
+			i++; 
+			k++; 
+		}
+		while (j < rightarraySize) 
+		{ 
+			array[k] = right[j]; 
+			j++; 
+			k++; 
+		}
+	}
+*/

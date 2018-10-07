@@ -1,0 +1,118 @@
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class MergeSort {
+	public static void main(String[] args) {
+		int arraySizeInput;
+		System.out.println("Enter size of the array:");
+		Scanner t = new Scanner(System.in);
+		arraySizeInput = t.nextInt();
+		int[] inputArray = new int[arraySizeInput];
+		//generate random numbers
+		Random random = new Random();
+		for(int i=0;i<arraySizeInput;i++) {
+			inputArray[i] = random.nextInt(100);
+			System.out.print(inputArray[i] +" ");
+		}
+		System.out.println("after sort ");
+		inputArray = mergeDivide(inputArray);
+		for(int i=0;i<arraySizeInput;i++) {
+			System.out.print(inputArray[i] +" ");
+		}
+		//mergeDivide(inputArray,new int[inputArray.length],0,inputArray.length-1);
+	}
+	
+	public static int[] mergeDivide(int[] array) {
+		int size = array.length;
+        if (size <= 1) {
+        	return array;
+        }
+        int[] left = new int[size/2];
+        int[] right = new int[size - size/2];
+        for (int i = 0; i < left.length; i++)
+            left[i] = array[i];
+        for (int i = 0; i < right.length; i++)
+            right[i] = array[i + size/2];
+        return merge(mergeDivide(left),mergeDivide(right));
+	}
+	private static int[] merge(int[] left, int[] right) {
+        int[] temp = new int[left.length + right.length];
+        int i = 0, j = 0;
+        for (int k = 0; k < temp.length; k++){
+            if(i >= left.length){
+            	temp[k] = right[j++];
+            }
+            else if (j >= right.length){
+            	temp[k] = left[i++];
+            }
+            else if (left[i] <= right[j]){
+            	temp[k] = left[i++];
+            }
+            else {
+            	temp[k] = right[j++];
+            }
+        }
+        return temp;
+    }
+	
+	public static int[] divide(int[] array,int left,int right) {
+		int subarray[]= new int[right-left+1];
+		for(int i=0;i<subarray.length;i++) {
+			for(int j=left;j<=right;j++) {
+				subarray[i]=array[j];
+			}
+		}
+		return subarray;
+	}
+	public static void mergeArray(int[] left, int[] right, int[] array) {
+		int ls=left.length;
+		int rs=right.length;
+		int i=0,j=0, k=0;
+		while(i<ls &&j<rs) {
+			if(left[i]<right[j]) {
+				array[k]=left[i];
+				i++;
+				k++;
+			}else {
+				array[k]=right[j];
+				j++;
+				k++;
+			}
+		}
+		while(i<ls) {
+			array[k]=left[i];
+			i++;
+			k++;
+		}
+		while(j<rs) {
+			array[k]=right[j];
+			j++;
+			k++;
+		}
+	}
+	public static void mergeSort(int[] array,int[] tempArray, int left, int right) {
+		int le= (right+left)/2;
+		int rs= le+1;
+		int size= right-left +1;
+		int index= left;
+		
+		while(left<=le && rs<=right) {
+			if(array[left]<=array[rs]) {
+				tempArray[index]=array[left];
+				left++;
+			}else {
+				tempArray[index]=array[rs];
+				rs++;
+			}
+			index++;
+		}
+		System.arraycopy(array, left, tempArray, index, le-left+1);
+		System.arraycopy(array, right, tempArray, index, right-rs+1);
+		System.arraycopy(tempArray, left, array, left, size);
+		for(int i=0;i<tempArray.length;i++) {
+			System.out.println(array[i]);
+		}
+		System.out.println("---------------------------------");
+	}
+}

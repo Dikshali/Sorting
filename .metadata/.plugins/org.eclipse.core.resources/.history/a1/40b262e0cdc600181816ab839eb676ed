@@ -1,0 +1,117 @@
+import java.util.Random;
+
+public class QuickSort {
+	public static void main(String[] args) {
+		int arraySizeInput=5;
+		int[] inputArray = new int[arraySizeInput];
+		Random random = new Random();
+		for(int i=0;i<arraySizeInput;i++) {
+			inputArray[i] = random.nextInt(100);
+			System.out.print(inputArray[i]+" ");
+		}
+		System.out.println();
+		sort(inputArray,0,arraySizeInput-1);
+		
+	}
+	
+	public static void sort(int[] inputArray, int j, int k) {
+		int start=j;
+		int end=k;
+		if(j>=k) {
+			return;
+		}
+		int pivot = inputArray[k];
+		k--;
+		while(j<k) {
+			if(inputArray[j]>pivot && inputArray[k]<=pivot) {
+				int temp=inputArray[k];
+				inputArray[k]=inputArray[j];
+				inputArray[j]= temp;
+				j++;k--;
+			}else if(inputArray[j]>pivot && inputArray[k]>pivot){
+				k--;
+			}else if(inputArray[j]<=pivot && inputArray[k]<=pivot){
+				j++;
+			}else {
+				j++;k--;
+			}	
+		}
+		if(j>=k) {
+			if(inputArray[j]>pivot) {
+				int temp = inputArray[j];
+				inputArray[j] = pivot;
+				inputArray[end] = temp;
+			}else if(inputArray[j+1]>pivot) {
+				int temp = inputArray[j];
+				inputArray[j] = pivot;
+				inputArray[end] = temp;
+			}
+		}
+		sort(inputArray,start,j-1);
+		sort(inputArray,j+1,end);
+		for(int i =0;i<inputArray.length;i++) {
+			System.out.print(inputArray[i] +" ");
+		}
+		System.out.println();
+	}
+	
+	
+}
+	/*public static void sort(int[] inputArray, int j, int k) {
+		int start=j, end=k;
+		Random random = new Random();
+		if(j>=k) {
+			return;
+		}
+		int pivotIndex= random.nextInt(k-j)+j;
+		int pivot = inputArray[pivotIndex];
+		if(pivotIndex==j) {
+			j++;
+		}
+		
+		System.out.println("pivot index value "+pivotIndex +" "+ pivot);
+		while(j<k) {
+			if(k==pivotIndex) {
+				k--;
+			}else if(j==pivotIndex){
+				j++;
+			}else if(inputArray[j]>pivot && inputArray[k]<=pivot) {
+				if(pivotIndex==k) {
+					pivotIndex=j;
+				}else if(pivotIndex==j) {
+					pivotIndex=k;
+				}
+				int temp = inputArray[k];
+				inputArray[k] = inputArray[j];
+				inputArray[j] =temp;
+				j++;
+				k--;
+			}else if(inputArray[j]>pivot && inputArray[k]>pivot) {
+				k--;
+			}else if(inputArray[j]<=pivot && inputArray[k]<=pivot) {
+				j++;
+			}else {
+				j++;
+				k--;
+			}
+		}
+		if(j>=k) {
+			if(inputArray[k]<=pivot) {
+				int temp = inputArray[k];
+				inputArray[k] = pivot;
+				inputArray[pivotIndex] = temp;
+				pivotIndex=k;
+			}
+		}
+		//System.out.print(j+" "+k);
+		
+		for(int i =0;i<inputArray.length;i++) {
+			System.out.print(inputArray[i] +" ");
+		}System.out.println();
+		//System.out.println("pivot left "+start+" "+(pivotIndex-1));
+		sort(inputArray, start,pivotIndex-1);
+		//System.out.println("pivot right "+(pivotIndex+1)+" "+end);
+		sort(inputArray, pivotIndex+1,end);
+		
+	}
+*/

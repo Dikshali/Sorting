@@ -1,0 +1,59 @@
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class MergeSort {
+	public static void main(String[] args) {
+		int arraySizeInput;
+		System.out.println("Enter size of the array:");
+		Scanner t = new Scanner(System.in);
+		arraySizeInput = t.nextInt();
+		int[] inputArray = new int[arraySizeInput];
+		//generate random numbers
+		Random random = new Random();
+		for(int i=0;i<arraySizeInput;i++) {
+			inputArray[i] = random.nextInt(100);
+			System.out.println(inputArray[i] +" ");
+		}
+		System.out.println("after sort ");
+		merge(inputArray,arraySizeInput);
+		for(int i=0;i<arraySizeInput;i++) {
+			System.out.println(inputArray[i]);
+		}
+	}
+	
+	public static void merge(int[] array) {
+		mergeDivide(array,0,array.length-1);
+	}
+	
+	public static void mergeDivide(int[] array, int left, int right) {
+		if(left>=right) {
+			return;
+		}
+		int middle=  (left+right)/2;
+		mergeDivide(array,left,middle);
+		mergeDivide(array, middle+1, right);
+		mergeSort(array,new int[array.length],left,right);
+	}
+	public static void mergeSort(int[] array,int[] tempArray, int left, int right) {
+		int le= (right+left)/2;
+		int rs= le+1;
+		int size= right-left +1;
+		int index= left;
+		
+		while(left<=le && rs<=right) {
+			if(array[left]<=array[rs]) {
+				tempArray[index]=array[left];
+				left++;
+			}else {
+				tempArray[index]=array[rs];
+				rs++;
+			}
+			index++;
+		}
+		System.arraycopy(array, left, tempArray, index, le-left+1);
+		System.arraycopy(array, right, tempArray, index, right-rs+1);
+		System.arraycopy(tempArray, left, array, left, size);
+		
+	}
+}
